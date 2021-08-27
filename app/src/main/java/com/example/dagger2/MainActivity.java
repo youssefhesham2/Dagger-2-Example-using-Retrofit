@@ -18,7 +18,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
-    ApiComponent apiComponent;
     ListView listView;
     @Inject
     Retrofit retrofit;
@@ -26,11 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        apiComponent = DaggerApiComponent.builder()
-                .appModule(new AppModule(getApplication()))
-                .apiModule(new ApiModule("https://restcountries.eu/rest/v2/"))
-                .build();
-        apiComponent.inject(this);
+        ( (MyApplication)  getApplication()).getmApiComponent().inject(this);
         listView = (ListView) findViewById(R.id.listViewCountries);
         getCountries();
     }
