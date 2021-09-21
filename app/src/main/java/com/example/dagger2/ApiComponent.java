@@ -3,9 +3,10 @@ package com.example.dagger2;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import dagger.Subcomponent;
 
-@Singleton
-@Component(modules = {AppModule.class, ApiModule.class})
+@MainActivityScope
+@Subcomponent(modules = {ApiModule.class})
 public interface ApiComponent {
     void inject(MainActivity activity);
 }

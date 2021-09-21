@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Application;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -18,16 +19,20 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     ListView listView;
     @Inject
     Retrofit retrofit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ( (MyApplication)  getApplication()).getmApiComponent().inject(this);
+        ApiComponent mApiComponent = ((MyApplication) getApplication()).getmApiComponent();
+        mApiComponent.inject(this);
         listView = (ListView) findViewById(R.id.listViewCountries);
         getCountries();
+        Log.d(TAG, "\n application " + ((MyApplication) getApplication()) + "\n retrofit " + retrofit);
     }
 
     private void getCountries() {
@@ -53,5 +58,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

@@ -10,15 +10,16 @@ import javax.inject.Inject;
 import okhttp3.OkHttpClient;
 
 public class MyApplication extends Application {
-    public ApiComponent mApiComponent;
+    private AppComponent mAppComponent;
+    private ApiComponent mApiComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mApiComponent = DaggerApiComponent.builder()
+        mAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
-                .apiModule(new ApiModule("https://restcountries.eu/rest/v2/"))
                 .build();
+        mApiComponent=mAppComponent.getApiComponent(new ApiModule("https://restcountries.eu/rest/v2/"));
     }
 
     public ApiComponent getmApiComponent() {
